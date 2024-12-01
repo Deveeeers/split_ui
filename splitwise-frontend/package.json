@@ -1,5 +1,5 @@
 {
-  "proxy": "http://13.233.251.45:3001",
+  "proxy": "http://13.233.251.45",
   "name": "splitwise-frontend",
   "version": "0.1.0",
   "private": true,

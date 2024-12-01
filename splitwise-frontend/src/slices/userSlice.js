@@ -42,37 +42,20 @@ export const signup = createAsyncThunk(
   }
 );
 
-const user = (() => {
-  try {
-    return JSON.parse(localStorage.getItem('user')) || null;
-  } catch (error) {
-    console.error('Error parsing user data from localStorage:', error);
-    return null;
-  }
-})();
 
 
 const userSlice = createSlice({
   name: 'user',
   initialState: {
-        user: (() => {
-      try {
-        return JSON.parse(localStorage.getItem('user')) || null;
-      } catch {
-        return null;
-      }
-    })(), 
     token: localStorage.getItem('token') || null, 
     status: 'idle',
     error: null,
   },
   reducers: {
     clearUser: (state) => {
-      state.user = null;
       state.token = null;
       state.status = 'idle';
       state.error = null;
-      localStorage.removeItem('user'); // Clear from localStorage
       localStorage.removeItem('token'); // Clear token
     },
   },
@@ -85,10 +68,8 @@ const userSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.user = action.payload.user; // Store user info
-        state.token = action.payload.token; // Store token
-        localStorage.setItem('user', JSON.stringify(action.payload.user)); // Save to localStorage
-        localStorage.setItem('token', action.payload.token); // Save token to localStorage
+        state.token = action.payload.token;
+        localStorage.setItem('token', action.payload.token);
       })
       .addCase(login.rejected, (state, action) => {
         state.status = 'failed';
@@ -103,10 +84,8 @@ const userSlice = createSlice({
       })
       .addCase(signup.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.user = action.payload.user; // Store user info
-        state.token = action.payload.token; // Store token
-        localStorage.setItem('user', JSON.stringify(action.payload.user)); // Save to localStorage
-        localStorage.setItem('token', action.payload.token); // Save token to localStorage
+        state.token = action.payload.token;
+        localStorage.setItem('token', action.payload.token); 
       })
       .addCase(signup.rejected, (state, action) => {
         state.status = 'failed';

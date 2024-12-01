@@ -17,7 +17,7 @@ export const createGroup = createAsyncThunk(
   'groups/createGroup',
   async (groupData, { rejectWithValue }) => {
     try {
-      const response = await apiCall('/groups', {
+      const response = await apiCall('/group/create', {
         method: 'POST',
         body: JSON.stringify(groupData),
       });
@@ -56,7 +56,7 @@ const groupSlice = createSlice({
       })
       .addCase(createGroup.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.groups.push(action.payload); // Add new group
+        state.groups.push(action.payload);
       })
       .addCase(createGroup.rejected, (state, action) => {
         state.status = 'failed';
